@@ -39,22 +39,44 @@ const Cart: React.FC = () => {
   const { increment, decrement, products } = useCart();
 
   function handleIncrement(id: string): void {
-    // TODO
+    increment(id);
   }
 
   function handleDecrement(id: string): void {
-    // TODO
+    decrement(id);
   }
 
   const cartTotal = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    if (products && products.length > 0) {
+      const { total } = products.reduce(
+        (accumulator, product) => {
+          accumulator.total += product.quantity * product.price;
+          return accumulator;
+        },
+        {
+          total: 0,
+        },
+      );
+
+      return formatValue(total);
+    }
 
     return formatValue(0);
   }, [products]);
 
   const totalItensInCart = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
-
+    if (products && products.length > 0) {
+      const { total } = products.reduce(
+        (accumulator, product) => {
+          accumulator.total += product.quantity;
+          return accumulator;
+        },
+        {
+          total: 0,
+        },
+      );
+      return total;
+    }
     return 0;
   }, [products]);
 
